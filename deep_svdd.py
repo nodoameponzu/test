@@ -196,6 +196,7 @@ class DeepSVDD_net(nn.Module):
         # Build encoder
         modules = []
         in_features = n_features
+        """
         for _hidden_neurons in self.hidden_neurons:
             modules.append(
                 nn.Linear(in_features, out_features=_hidden_neurons, bias=False)
@@ -205,8 +206,18 @@ class DeepSVDD_net(nn.Module):
 
             modules.append(self.hidden_activation)
             modules.append(nn.Dropout(self.dropout_rate))
-
             in_features = _hidden_neurons
+        """
+        modules.append(nn.Linear(in_features, 128, bias=False))
+        modules.append(self.hidden_activation)
+        modules.append(nn.Linear(128, 64, bias=False))
+        modules.append(self.hidden_activation)
+        modules.append(nn.Dropout(self.dropout_rate))
+        modules.append(nn.Linear(64, 32, bias=False))
+        modules.append(self.hidden_activation)
+        modules.append(nn.Linear(32, 16, bias=False))
+        modules.append(self.hidden_activation)
+        modules.append(nn.Dropout(self.dropout_rate))   
         self.encoder = nn.Sequential(*modules)
 
         # bottleneck layer
