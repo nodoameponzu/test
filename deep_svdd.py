@@ -218,6 +218,8 @@ class DeepSVDD_net(nn.Module):
         modules.append(nn.Linear(32, 16, bias=False))
         modules.append(self.hidden_activation)
         modules.append(nn.Dropout(self.dropout_rate))   
+        modules.append(nn.Linear(16, 1, bias=False))
+        modules.append(nn.Sigmoid())
         self.encoder = nn.Sequential(*modules)
 
         # bottleneck layer
